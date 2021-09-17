@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  Codegen.swift
 //  ApolloGraphQL-Codegen
 //
 //  Copyright (c) 2021 Rocket Insights, Inc.
@@ -23,4 +23,13 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-Codegen.main()
+import ArgumentParser
+import Foundation
+
+/// Top-level command. Contains two sub-commands: download-schema and generate-code.
+struct Codegen: ParsableCommand {
+    static let configuration = CommandConfiguration(
+        abstract: "Apollo GraphQL Code Generation Tools",
+        subcommands: [DownloadSchema.self, GenerateCode.self]
+    )
+}
