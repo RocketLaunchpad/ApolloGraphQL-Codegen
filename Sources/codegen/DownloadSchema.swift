@@ -56,7 +56,7 @@ struct DownloadSchema: ParsableCommand {
     var endpoint: Argument.URL
 
     @Option(name: .shortAndLong, help: "The output format. (Default: json)")
-    var formats: [Format] = [.json]
+    var format: [Format] = [.json]
 
     @Option(name: .shortAndLong, help: "The directory to which the schema is to be written.")
     var outputDir: Argument.Directory
@@ -84,8 +84,8 @@ struct DownloadSchema: ParsableCommand {
         debug("  outputDir: \(outputDir.url)")
 
         // Use Apollo to download the specified schema and save it using the specified format(s).
-        for format in formats {
-            let options = ApolloSchemaOptions(schemaFileType: format.schemaFileType,
+        for f in format {
+            let options = ApolloSchemaOptions(schemaFileType: f.schemaFileType,
                                               endpointURL: endpoint.url,
                                               outputFolderURL: outputDir.url)
 
