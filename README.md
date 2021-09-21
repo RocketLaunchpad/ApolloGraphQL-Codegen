@@ -69,7 +69,7 @@ This sub-command supports the following arguments:
 
 ### CLI Directory
 
-Note that the Apollo CLI is fairly large (at the time of this writing, it was 159 MB). You should pick a location for it and reference that same location every time you use this tool. This will prevent downloading and unpacking the CLI more than is absolutely necessary.
+Note that the Apollo CLI is fairly large (at the time of this writing, it was 171 MB). You should pick a location for it and reference that same location every time you use this tool. This will prevent downloading and unpacking the CLI more than is absolutely necessary.
 
 ### Build Optimization
 
