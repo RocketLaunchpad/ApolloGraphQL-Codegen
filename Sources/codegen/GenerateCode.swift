@@ -87,7 +87,6 @@ struct GenerateCode: ParsableCommand {
                                            customScalarFormat: .passthrough,
                                            urlToSchemaFile: schemaFile.url)
         let pwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
-
         try ApolloCodegen.run(from: pwd, with: cliDir.url, options: options)
     }
 

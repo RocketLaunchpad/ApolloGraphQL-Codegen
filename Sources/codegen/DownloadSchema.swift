@@ -30,33 +30,11 @@ import Foundation
 /// Downloads a GraphQL schema.
 struct DownloadSchema: ParsableCommand {
 
-    enum Format: String, ExpressibleByArgument {
-        case json
-        case sdl
-
-        init?(argument: String) {
-            self.init(rawValue: argument)
-        }
-
-        var schemaFileType: ApolloSchemaOptions.SchemaFileType {
-            switch self {
-            case .json: return .json
-            case .sdl: return .schemaDefinitionLanguage
-            }
-        }
-    }
-
-    @Option(name: .shortAndLong, help: "The Apollo CLI directory. If the CLI has not yet been downloaded, it will be downloaded and stored here.")
-    var cliDir: Argument.Directory
-
     @Flag(name: .shortAndLong, help: "Print debug output.")
     var debug: Bool = false
 
     @Option(name: .shortAndLong, help: "The endpoint from which the schema is to be downloaded.")
     var endpoint: Argument.URL
-
-    @Option(name: .shortAndLong, help: "The output format. (Default: json)")
-    var format: [Format] = [.json]
 
     @Option(name: .shortAndLong, help: "The directory to which the schema is to be written.")
     var outputDir: Argument.Directory
@@ -79,17 +57,10 @@ struct DownloadSchema: ParsableCommand {
 
     private func _run() throws {
         debug("DownloadSchema arguments:")
-        debug("  cliDir: \(cliDir.url)")
         debug("  endpoint: \(endpoint.url)")
         debug("  outputDir: \(outputDir.url)")
 
-        // Use Apollo to download the specified schema and save it using the specified format(s).
-        for f in format {
-            let options = ApolloSchemaOptions(schemaFileType: f.schemaFileType,
-                                              endpointURL: endpoint.url,
-                                              outputFolderURL: outputDir.url)
-
-            try ApolloSchemaDownloader.run(with: cliDir.url, options: options)
-        }
+        let cfg = ApolloSchemaDownloadConfiguration(using: .introspection(endpointURL: endpoint.url), outputFolderURL: outputDir.url)
+        try ApolloSchemaDownloader.fetch(with: cfg)
     }
 }
